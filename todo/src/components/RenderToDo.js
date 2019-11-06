@@ -1,12 +1,20 @@
-import React from 'react';
+import React from "react";
 
-//Step 2A -- Using the reducer hook, set up state in your component.
-import Reducer, { initialState } from "../reducers/Reducer";
+const RenderToDo = ({ state, dispatch }) => {
+  // If the list item is set, it will allow the class to change
+  const toggleTodo = todo => {
+    dispatch({ type: "TOGGLE_COMPLETED", payload: todo });
+  };
 
-//Step 2B -- Now render your list of todos from your reducer in your app
+  return (
+    <div className="list-items-container">
+      {state.todos.map(item => (
+        <div className={`task${item.completed ? " completed" : ""}`}>
+          <h1 onClick={() => toggleTodo(item)}>{item.item}</h1>
+        </div>
+      ))}
+    </div>
+  );
+};
 
-const ToDoRenderer = () => {
-    const [state, dispatch] = useReducer(Reducer, initialState);
-
-    
-}
+export default RenderToDo;

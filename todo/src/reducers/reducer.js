@@ -13,17 +13,42 @@ export const initialState = {
     ]
 };
 
-
-//Step 1A -- In a folder called reducers add a reducer file and build out a simple reducer with just a default return for now 
 const Reducer = (state, action) => {
     switch (action.type) {
-        case 'ADD_TODO':
-        return { todos: [...state.todos, action.payload] };
-
-        default:
-            throw new Error('Action was not completed, hahahaha. Figure it out.');
+      case "ADD_TODO":
+        const todo = {
+          item: action.payload,
+          completed: false,
+          id: Date.now()
+        };
+  
+        if (todo.item !== "") {
+          return {
+            ...state,
+            todos: [...state.todos, todo]
+          };
+        } else {
+          return state;
+        }
+  
+      case "CLEAR_COMPLETED":
+        return { todos: state.todos.filter(todo => !todo.completed) };
+  
+      case "TOGGLE_COMPLETED":
+        return {
+          ...state,
+          todos: state.todos.map(todo => {
+            if (todo.id === action.payload.id) {
+              return { ...todo, completed: !todo.completed };
+            } else {
+              return todo;
+            }
+          })
+        };
+  
+      default:
+        return state;
     }
-};
-
-//Step 1C -- Export both the reducer and the initial state object
-export default Reducer;
+  };
+  
+  export default Reducer;
